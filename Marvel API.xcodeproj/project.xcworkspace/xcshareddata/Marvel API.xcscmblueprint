@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "F03B337BBBB23D9E541400BA80B7377E3B1C6EA7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "67620B5EFA902936DF04070AF595B76AB0333747" : 0,
+    "F03B337BBBB23D9E541400BA80B7377E3B1C6EA7" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "DEE08138-3264-4F92-A5C5-8CDCB26D14BB",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "67620B5EFA902936DF04070AF595B76AB0333747" : "H19%20Code%20Challenge%20Marvel%20API\/Alamofire\/",
+    "F03B337BBBB23D9E541400BA80B7377E3B1C6EA7" : "H19%20Code%20Challenge%20Marvel%20API\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Marvel API",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Marvel API.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Alamofire\/Alamofire.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "67620B5EFA902936DF04070AF595B76AB0333747"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/fernandocani\/H19-Code-Challenge-Marvel-API.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F03B337BBBB23D9E541400BA80B7377E3B1C6EA7"
+    }
+  ]
+}
