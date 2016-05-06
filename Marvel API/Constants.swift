@@ -26,12 +26,10 @@ let screenHeight    = UIScreen.mainScreen().bounds.size.height
 let publicKey = "949ff8b6964f250f87488ec43228398e"
 let privateKey = "acc8f668de244e03b27fe28fc5dde17536ad7cd8"
 
-let limit = "20"
-
 //URL's
 //http://gateway.marvel.com/v1/comics?ts=1&apikey=949ff8b6964f250f87488ec43228398e&hash=acc8f668de244e03b27fe28fc5dde17536ad7cd8
 //http://gateway.marvel.com:80/v1/public/characters?apikey=949ff8b6964f250f87488ec43228398e
-let urlTotalCharacters = "http://gateway.marvel.com:80/v1/public/characters?"
+let urlTotalCharacters = "http://gateway.marvel.com:80/v1/public/characters?orderBy=name"
 
 //Texts
 let loren  = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."
@@ -147,5 +145,16 @@ extension String {
         }
         result.destroy()
         return String(format: hash as String)
+    }
+}
+
+extension UIImageView {
+    public func imageFromUrl(urlString: String) {
+        if let url = NSURL(string: urlString) {
+            let request = NSURLRequest(URL: url)
+            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: { (response, data, error) in
+                self.image = UIImage(data: data!)
+            })
+        }
     }
 }

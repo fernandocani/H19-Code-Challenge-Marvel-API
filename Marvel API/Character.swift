@@ -10,8 +10,9 @@ import Foundation
 
 class Character {
     
-    var id          = String()
-    var name        = String()
-    var thumbnail   = String()
+    var id              : String?
+    var name            : String?
+    var thumbnailURL    : String?
+    var thumbnail       : NSData?
 
 }
