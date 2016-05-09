@@ -10,8 +10,9 @@
         <attribute name="stories" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="thumbnailURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="urls" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DBCharacter" positionX="-63" positionY="-18" width="128" height="180"/>
+        <element name="DBCharacter" positionX="-63" positionY="-18" width="128" height="195"/>
     </elements>
 </model>

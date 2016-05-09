@@ -21,5 +21,6 @@ class DBCharacter: NSManagedObject {
     @NSManaged var series:          String?
     @NSManaged var stories:         String?
     @NSManaged var events:          String?
+    @NSManaged var urls:            String?
 
 }

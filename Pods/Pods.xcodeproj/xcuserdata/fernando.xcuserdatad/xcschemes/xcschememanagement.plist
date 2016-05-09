@@ -24,7 +24,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SwiftFSImageViewer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>UIActivityIndicator-for-SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>YHImageViewer-YHImageViewer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>YHImageViewer.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -32,27 +47,42 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>022E953D399A163DDEE4A53E833893B8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>096E0AD65FE76B40A50947165570D296</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>30C445E6D8703D94CB06D42EB47820DE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9E65C0BB58932C6A92BDE33A81C4D6BB</key>
+		<key>72D3DBC4F5674F1953AB81C48CF2D2E5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>754F4DEA1E345A51D45EE1FDEC4CFFBB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>988B3C5BE7A35C06F693E4AFA2A509DD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A92D922F1C58A28D604C9E65CB2524CD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>BCC9977AA9316CA3F11E052D6BC5AB9D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C30B0156E31D556EA87496547445BF66</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E126C5C99872D8CB15FB2D5B87F6E310</key>
 		<dict>
 			<key>primary</key>
 			<true/>

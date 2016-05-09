@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'FA72341D8A1EC4CBFE2E9C89'
+               BlueprintIdentifier = '89C1ABFD2F84EC92E4A42056'
                BlueprintName = 'ASHorizontalScrollView'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'ASHorizontalScrollView.framework'>

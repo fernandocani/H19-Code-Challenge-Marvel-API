@@ -10,6 +10,9 @@ import UIKit
 import Alamofire
 import ASHorizontalScrollView
 import SDWebImage
+import YHImageViewer
+import SwiftFSImageViewer
+import SafariServices
 
 private let headerHeight    = CGFloat(260)
 private let headerCut       = CGFloat(0)
@@ -18,6 +21,9 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
 
     @IBOutlet weak var imgHeader: UIImageView!
     @IBOutlet weak var tableView: UITableView!
+    
+    var imageViewer:YHImageViewer?
+    
     var cellIdentifier = "charactersDetailCell"
 
     var headerView: UIView!
@@ -36,6 +42,11 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
     var seriesCount  = Int()
     var storiesCount = Int()
     var eventsCount  = Int()
+    var urlsCount    = Int()
+    
+    var detailObject    = ""
+    var wikiObject      = ""
+    var comicLinkObject = ""
     
     let sectionTitle = [
         "NAME",
@@ -44,7 +55,10 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
         "SERIES",
         "STORIES",
         "EVENTS",
-        "RELATED LINKS"
+        "RELATED LINKS",
+        "",
+        "",
+        ""
     ]
     
     override func viewDidLoad() {
@@ -65,7 +79,9 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
                                 comics:             self.char.comics!,
                                 series:             self.char.series!,
                                 stories:            self.char.stories!,
-                                events:             self.char.events!)
+                                events:             self.char.events!,
+                                urls:               self.char.urls!
+                            )
                         } else {
                             self.imgHeader.image = UIImage(named: "imgNotAvaliable")
                             DataStore.sharedInstance.updateCharacter(
@@ -77,7 +93,8 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
                                 comics:             self.char.comics!,
                                 series:             self.char.series!,
                                 stories:            self.char.stories!,
-                                events:             self.char.events!
+                                events:             self.char.events!,
+                                urls:               self.char.urls!
                             )
                         }
                         }
@@ -102,14 +119,26 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
             let eventsArray     = breakString(char.events!)
             eventsCount = eventsArray[0].count
             charArray.addObject(eventsArray)
-        } else {
-            
+            let urlsArray       = breakString(char.urls!)
+            if urlsArray[0].count > 0 {
+                for valor in 0...((urlsArray.objectAtIndex(0) as! NSArray).count - 1) {
+                    let item = urlsArray.objectAtIndex(0) as! NSArray
+                           if item[valor] as! String == "detail" {
+                        detailObject    = (urlsArray.objectAtIndex(1) as! NSArray).objectAtIndex(valor) as! String
+                    } else if item[valor] as! String == "wiki" {
+                        wikiObject      = (urlsArray.objectAtIndex(1) as! NSArray).objectAtIndex(valor) as! String
+                    } else if item[valor] as! String == "comiclink" {
+                        comicLinkObject = (urlsArray.objectAtIndex(1) as! NSArray).objectAtIndex(valor) as! String
+                    }
+                }
+            }
+            urlsCount = urlsArray[0].count
+            charArray.addObject(urlsArray)
+            populateCell()
+            updateView()
+            openConnection()
         }
-        populateCell()
-        updateView()
-        openConnection()
     }
-
     func breakString(string: String) -> NSArray {
         let arrayA = NSMutableArray()
         let arrayB = NSMutableArray()
@@ -159,7 +188,19 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
                     self.createHorizontalScroll(cell, index: valor)
                 }
                 if (valor == 6) {
-                    cell.lblText!.text = "\(valor)"
+                    cell.lblText.text = ""
+                }
+                if (valor == 7) {
+                    cell.cstLblSectionTitleHeight.constant = 0
+                    cell.lblText.text = "Detail"
+                }
+                if (valor == 8) {
+                    cell.cstLblSectionTitleHeight.constant = 0
+                    cell.lblText.text = "Wiki"
+                }
+                if (valor == 9) {
+                    cell.cstLblSectionTitleHeight.constant = 0
+                    cell.lblText.text = "Comic"
                 }
                 detailCell.removeObjectAtIndex(valor)
                 detailCell.insertObject(cell, atIndex: valor)
@@ -179,7 +220,22 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
                     self.createHorizontalScroll(cell, index: valor)
                 }
                 if (valor == 6) {
-                    cell.lblText!.text = "\(valor)"
+                	cell.lblText.text = ""
+                }
+                if (valor == 7) {
+                    cell.cstLblSectionTitleHeight.constant = 0
+                    cell.lblText.text = "Detail"
+                    //detailObject
+                }
+                if (valor == 8) {
+                    cell.cstLblSectionTitleHeight.constant = 0
+                    cell.lblText.text = "Wiki"
+                    //wikiObject
+                }
+                if (valor == 9) {
+                    cell.cstLblSectionTitleHeight.constant = 0
+                    cell.lblText.text = "Comic"
+                    //comicLinkObject
                 }
                 detailCell.addObject(cell)
             }
@@ -292,10 +348,13 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
     }
     
     func buttonPressed(sender: UIButton!) {
-        let tag = String(sender.tag)
-        let prefix = String(tag.characters.prefix(2))
-        let sufix  = String(tag.characters.suffixFrom(tag.startIndex.advancedBy(2)))
-        print("\(prefix)|\(sufix)")
+//        let tag = String(sender.tag)
+//        let prefix = String(tag.characters.prefix(2))
+//        let sufix  = String(tag.characters.suffixFrom(tag.startIndex.advancedBy(2)))
+//        print("\(prefix)|\(sufix)")
+        
+        FSImageViewer.sharedFSImageViewer.showImageView(UIImageView(image: sender.backgroundImageForState(.Normal)), atPoint: self.view.center)
+            
 //        self.performSegueWithIdentifier("", sender: self)
     }
     
@@ -339,7 +398,30 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
                 return 0.0
             }
         case 6:
-            return 100.0
+            let items = charArray[valor] as! NSArray
+            if items[0].count > 0 {
+                return 60.0
+            } else {
+                return 0.0
+            }
+        case 7:
+            if detailObject != "" {
+                return 50.0
+            } else {
+                return 0.0
+            }
+        case 8:
+            if wikiObject != "" {
+                return 50.0
+            } else {
+                return 0.0
+            }
+        case 9:
+            if comicLinkObject != "" {
+                return 50.0
+            } else {
+                return 0.0
+            }
         default:
             return 280.0
         }
@@ -347,6 +429,19 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         cell.backgroundColor = UIColor.clearColor()
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.row == 7 {
+            let svc = SFSafariViewController(URL: NSURL(string: detailObject)!)
+            self.presentViewController(svc, animated: true, completion: nil)
+        } else if indexPath.row == 8 {
+            let svc = SFSafariViewController(URL: NSURL(string: wikiObject)!)
+            self.presentViewController(svc, animated: true, completion: nil)
+        } else if indexPath.row == 9 {
+            let svc = SFSafariViewController(URL: NSURL(string: comicLinkObject)!)
+            self.presentViewController(svc, animated: true, completion: nil)
+        }
     }
     
     func updateView() {
@@ -478,4 +573,7 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
 class CharacterDetailTableViewCell: UITableViewCell {
     @IBOutlet var lblSectionTitle:  UILabel!
     @IBOutlet var lblText:          UILabel!
+    
+    @IBOutlet weak var cstLblSectionTitleHeight: NSLayoutConstraint!
+    
 }

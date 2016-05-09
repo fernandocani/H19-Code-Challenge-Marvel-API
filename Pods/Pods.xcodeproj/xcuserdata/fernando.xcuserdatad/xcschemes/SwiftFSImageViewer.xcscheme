@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'CED540C10928A954A0A333B1'
-               BlueprintName = 'Pods-Marvel API'
+               BlueprintIdentifier = '8185432086AD47BC092238FA'
+               BlueprintName = 'SwiftFSImageViewer'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Pods_Marvel_API.framework'>
+               BuildableName = 'SwiftFSImageViewer.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

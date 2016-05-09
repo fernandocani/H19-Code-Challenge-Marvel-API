@@ -4,19 +4,25 @@ PODS:
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
+  - SwiftFSImageViewer (1.1)
   - UIActivityIndicator-for-SDWebImage (1.2):
     - SDWebImage (~> 3.7)
+  - YHImageViewer (0.2.1)
 
 DEPENDENCIES:
   - ASHorizontalScrollView (~> 1.1)
   - CSStickyHeaderFlowLayout
   - SDWebImage (~> 3.7)
+  - SwiftFSImageViewer (~> 1.1)
   - UIActivityIndicator-for-SDWebImage
+  - YHImageViewer
 
 SPEC CHECKSUMS:
   ASHorizontalScrollView: 97f78b44008078b9c3ea1fe3ed7286c39e47d4e8
   CSStickyHeaderFlowLayout: 5366582779d8b7c9ba9b9cc729c218cc23888776
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  SwiftFSImageViewer: 08be630f0d2d146b4e13f87e166746d59155552b
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
+  YHImageViewer: 8d35d0f71066bece9609d7d3195e22e5eadc066e
 
 COCOAPODS: 0.39.0

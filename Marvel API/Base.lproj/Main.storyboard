@@ -191,16 +191,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cv1-SK-aEH">
-                                                    <rect key="frame" x="8" y="18" width="28.5" height="21"/>
+                                                    <rect key="frame" x="8" y="8" width="28.5" height="40"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="Qae-Jb-ITn"/>
+                                                        <constraint firstAttribute="height" constant="40" id="Qae-Jb-ITn"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.90196078430000004" green="0.0039215686269999999" blue="0.1137254902" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h0c-SE-W7I">
-                                                    <rect key="frame" x="8" y="47" width="584" height="45"/>
+                                                    <rect key="frame" x="8" y="48" width="584" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -209,13 +209,14 @@
                                             <constraints>
                                                 <constraint firstAttribute="leadingMargin" secondItem="cv1-SK-aEH" secondAttribute="leading" id="7cw-mh-MKu"/>
                                                 <constraint firstItem="h0c-SE-W7I" firstAttribute="leading" secondItem="cza-Kw-RMo" secondAttribute="leadingMargin" id="PxB-P2-hhJ"/>
-                                                <constraint firstItem="h0c-SE-W7I" firstAttribute="top" secondItem="cv1-SK-aEH" secondAttribute="bottom" constant="8" id="ZIO-o5-td9"/>
+                                                <constraint firstItem="h0c-SE-W7I" firstAttribute="top" secondItem="cv1-SK-aEH" secondAttribute="bottom" id="ZIO-o5-td9"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="h0c-SE-W7I" secondAttribute="bottom" id="Zgg-9T-ppz"/>
-                                                <constraint firstItem="cv1-SK-aEH" firstAttribute="top" secondItem="cza-Kw-RMo" secondAttribute="topMargin" constant="10" id="iHu-48-3Vu"/>
+                                                <constraint firstItem="cv1-SK-aEH" firstAttribute="top" secondItem="cza-Kw-RMo" secondAttribute="topMargin" id="iHu-48-3Vu"/>
                                                 <constraint firstItem="h0c-SE-W7I" firstAttribute="trailing" secondItem="cza-Kw-RMo" secondAttribute="trailingMargin" id="vL4-5M-HI1"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="cstLblSectionTitleHeight" destination="Qae-Jb-ITn" id="HSo-6l-FTF"/>
                                             <outlet property="lblSectionTitle" destination="cv1-SK-aEH" id="Bia-0u-9jK"/>
                                             <outlet property="lblText" destination="h0c-SE-W7I" id="LRq-AQ-gYI"/>
                                         </connections>

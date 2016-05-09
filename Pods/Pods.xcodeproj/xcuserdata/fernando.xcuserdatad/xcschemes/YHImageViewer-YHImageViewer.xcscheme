@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'CED540C10928A954A0A333B1'
-               BlueprintName = 'Pods-Marvel API'
+               BlueprintIdentifier = '6E34A6226130A0BF0EEB9CE8'
+               BlueprintName = 'YHImageViewer-YHImageViewer'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Pods_Marvel_API.framework'>
+               BuildableName = 'YHImageViewer.bundle'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

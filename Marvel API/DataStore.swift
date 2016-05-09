@@ -29,7 +29,8 @@ class DataStore {
         comics: String,
         series: String,
         stories: String,
-        events: String
+        events: String,
+        urls: String
         ) -> Bool {
         
         let dbCharacterEntity = NSEntityDescription.entityForName("DBCharacter", inManagedObjectContext: managedContext)
@@ -43,6 +44,7 @@ class DataStore {
         dbCharacter.series          = series
         dbCharacter.stories         = stories
         dbCharacter.events          = events
+        dbCharacter.urls            = urls
         if thumbnail != nil{
             dbCharacter.thumbnail = UIImagePNGRepresentation(thumbnail!)
         }
@@ -86,6 +88,7 @@ class DataStore {
             char.series          = (item as! DBCharacter).series!
             char.stories         = (item as! DBCharacter).stories!
             char.events          = (item as! DBCharacter).events!
+            char.urls            = (item as! DBCharacter).urls!
             if (item as! DBCharacter).thumbnail != nil {
                 char.thumbnail  = (item as! DBCharacter).thumbnail!
             }
@@ -103,7 +106,8 @@ class DataStore {
         comics: String,
         series: String,
         stories: String,
-        events: String
+        events: String,
+        urls: String
         ) -> Bool {
         let request = NSFetchRequest(entityName: "DBCharacter")
         request.predicate = NSPredicate(format: "id contains[c] %@", id)
@@ -119,6 +123,7 @@ class DataStore {
             dbCharacterToUpdate.series          = series
             dbCharacterToUpdate.stories         = stories
             dbCharacterToUpdate.events          = events
+            dbCharacterToUpdate.urls            = urls
             if thumbnail != nil{
                 dbCharacterToUpdate.thumbnail = thumbnail
             }

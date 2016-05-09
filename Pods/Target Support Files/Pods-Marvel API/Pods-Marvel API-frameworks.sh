@@ -87,11 +87,15 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Marvel API/ASHorizontalScrollView.framework"
   install_framework "Pods-Marvel API/CSStickyHeaderFlowLayout.framework"
   install_framework "Pods-Marvel API/SDWebImage.framework"
+  install_framework "Pods-Marvel API/SwiftFSImageViewer.framework"
   install_framework "Pods-Marvel API/UIActivityIndicator_for_SDWebImage.framework"
+  install_framework "Pods-Marvel API/YHImageViewer.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Marvel API/ASHorizontalScrollView.framework"
   install_framework "Pods-Marvel API/CSStickyHeaderFlowLayout.framework"
   install_framework "Pods-Marvel API/SDWebImage.framework"
+  install_framework "Pods-Marvel API/SwiftFSImageViewer.framework"
   install_framework "Pods-Marvel API/UIActivityIndicator_for_SDWebImage.framework"
+  install_framework "Pods-Marvel API/YHImageViewer.framework"
 fi

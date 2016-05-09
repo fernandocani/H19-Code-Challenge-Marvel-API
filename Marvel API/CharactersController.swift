@@ -151,6 +151,14 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                                 let name                = String(it.objectForKey("name")!)
                                 character.events        = "\(character.events!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
                             }
+                            character.urls              = ""
+                            let urls                    = it.objectForKey("urls")! as? [[String: AnyObject]]
+                            for item in urls! {
+                                let it                  = (item as NSDictionary)
+                                let type                = String(it.objectForKey("type")!)
+                                let url                 = String(it.objectForKey("url")!)
+                                character.urls          = "\(character.urls!)\(type)\(lineBreak2)\(url)\(lineBreak1)"
+                            }
                             self.charactersArray.addObject(character)
                             self.charsForSearch.append(character)
                             self.currentIndex = self.currentIndex + 1
@@ -164,7 +172,8 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                                 comics:             character.comics!,
                                 series:             character.series!,
                                 stories:            character.stories!,
-                                events:             character.events!
+                                events:             character.events!,
+                                urls:               character.urls!
                             )
                         }
                     } else {
@@ -179,6 +188,7 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
             let ts = String(Int(NSDate().timeIntervalSince1970) * 1000)
             let url = urlTotalCharacters + "?orderBy=name&limit=\(self.limit)" + "&offset=\(self.currentIndex + self.limit)" + "&apikey=\(publicKey)" + "&ts=\(ts)" + "&hash=\((ts+privateKey+publicKey).md5())"
+            print(url)
             Alamofire.request(
                 .GET,
                 url,
@@ -236,6 +246,14 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                                         let name                = String(it.objectForKey("name")!)
                                         character.events        = "\(character.events!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
                                     }
+                                    character.urls              = ""
+                                    let urls                    = it.objectForKey("urls")! as? [[String: AnyObject]]
+                                    for item in urls! {
+                                        let it                  = (item as NSDictionary)
+                                        let type                = String(it.objectForKey("type")!)
+                                        let url                 = String(it.objectForKey("url")!)
+                                        character.urls          = "\(character.urls!)\(type)\(lineBreak2)\(url)\(lineBreak1)"
+                                    }
                                     self.charactersArray.addObject(character)
                                     self.charsForSearch.append(character)
                                     self.currentIndex = self.currentIndex + 1
@@ -249,7 +267,8 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                                         comics:             character.comics!,
                                         series:             character.series!,
                                         stories:            character.stories!,
-                                        events:             character.events!
+                                        events:             character.events!,
+                                        urls:               character.urls!
                                     )
                                     self.insertCell(self.charactersArray.count - 1)
                                     self.tableView.beginUpdates()
@@ -295,7 +314,8 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                     comics:             char.comics!,
                     series:             char.series!,
                     stories:            char.stories!,
-                    events:             char.events!
+                    events:             char.events!,
+                    urls:               char.urls!
                 )
             } else {
                 cell.imgCharacter.sd_setImageWithURL(NSURL(string: char.thumbnailURL!), placeholderImage: UIImage(named: "imgNotAvaliable"), completed: { (image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) in
@@ -309,7 +329,8 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                             comics:             char.comics!,
                             series:             char.series!,
                             stories:            char.stories!,
-                            events:             char.events!
+                            events:             char.events!,
+                            urls:               char.urls!
                         )
                     } else {
                         cell.imgCharacter.image = UIImage(named: "imgNotAvaliable")
@@ -322,7 +343,8 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                             comics:             char.comics!,
                             series:             char.series!,
                             stories:            char.stories!,
-                            events:             char.events!
+                            events:             char.events!,
+                            urls:               char.urls!
                         )
                     }
                     }
@@ -389,10 +411,12 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if (!loadingData && (indexPath.row == (charactersArray.count - 1))) {
-            spinner.hidden = false
-            loadingData = true
-            refreshResults2()
+        if !searchController.active {
+            if (!loadingData && (indexPath.row == (charactersArray.count - 1))) {
+                spinner.hidden = false
+                loadingData = true
+                refreshResults2()
+            }
         }
     }
     
@@ -401,21 +425,19 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
         let indexPath   = tableView.indexPathForCell(cell)!
         if segue.identifier == "toCharacterDetail" {
             let vc      = segue.destinationViewController as! CharacterDetailViewController
-            var char = Character()
             if searchController.active && searchController.searchBar.text != "" {
-                char = filteredCharactersNameArray[indexPath.row]
+                vc.char = filteredCharactersNameArray[indexPath.row]
             } else {
-                char = self.charactersArray[indexPath.row] as! Character
+                vc.char = self.charactersArray[indexPath.row] as! Character
             }
-            vc.char = char
         }
     }
     
     @IBAction func btnSearch(sender: UIBarButtonItem) {
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.dimsBackgroundDuringPresentation = false
-        definesPresentationContext = true
+        searchController.searchResultsUpdater                   = self
+        searchController.dimsBackgroundDuringPresentation       = false
+        searchController.hidesNavigationBarDuringPresentation   = false
+        definesPresentationContext                              = true
         self.presentViewController(self.searchController, animated: true, completion: nil)
     }
     

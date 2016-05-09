@@ -19,5 +19,6 @@ class Character {
     var series          : String?
     var stories         : String?
     var events          : String?
+    var urls            : String?
     
 }

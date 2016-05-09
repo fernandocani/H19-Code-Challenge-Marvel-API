@@ -10,6 +10,8 @@ pod 'SDWebImage', '~>3.7'
 pod 'UIActivityIndicator-for-SDWebImage'
 pod 'CSStickyHeaderFlowLayout'
 pod 'ASHorizontalScrollView', '~> 1.1'
+pod 'YHImageViewer'
+pod 'SwiftFSImageViewer', '~> 1.1'
 
 end
 
