@@ -19,6 +19,10 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
     
     @IBOutlet weak var tableView:   UITableView!
     
+    let searchController            = UISearchController(searchResultsController: nil)
+    
+    var filteredCharactersNameArray = [Character]()
+    var charsForSearch              = [Character]()
     var charactersCellArray         = NSMutableArray()
     var charactersArray             = NSMutableArray()
     var characterCell               = "characterCell"
@@ -36,8 +40,12 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         spinner.startAnimating()
         spinner.hidden = true
+        
         if DataStore.sharedInstance.hasCharacters() {
             charactersArray.addObjectsFromArray(DataStore.sharedInstance.getCharacters() as [AnyObject])
+            for item in charactersArray {
+                charsForSearch.append(item as! Character)
+            }
             currentIndex = charactersArray.count
             total = charactersArray.count
             populateCell()
@@ -105,7 +113,6 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                             let it                      = (item as NSDictionary)
                             character.id                = String(it.objectForKey("id")!)
                             character.name              = String(it.objectForKey("name")!)
-                            print(character.name!)
                             character.thumbnailURL      = String(it.objectForKey("thumbnail")!.objectForKey("path")!) + ".jpg"
                             if String(it.objectForKey("description")!) != nil {
                                 character.heroDescription = String(it.objectForKey("description")!)
@@ -145,6 +152,7 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                                 character.events        = "\(character.events!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
                             }
                             self.charactersArray.addObject(character)
+                            self.charsForSearch.append(character)
                             self.currentIndex = self.currentIndex + 1
                             self.total = Int(JSONDictionary.objectForKey("data")!.objectForKey("total")! as! NSNumber)
                             DataStore.sharedInstance.createCharacter(
@@ -190,7 +198,6 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                                 character.id                = String(it.objectForKey("id")!)
                                 if DataStore.sharedInstance.hasCharacter(character.id!) == false {
                                     character.name              = String(it.objectForKey("name")!)
-                                    print(character.name!)
                                     character.thumbnailURL      = String(it.objectForKey("thumbnail")!.objectForKey("path")!) + ".jpg"
                                     if String(it.objectForKey("description")!) != nil {
                                         character.heroDescription = String(it.objectForKey("description")!)
@@ -230,6 +237,7 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                                         character.events        = "\(character.events!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
                                     }
                                     self.charactersArray.addObject(character)
+                                    self.charsForSearch.append(character)
                                     self.currentIndex = self.currentIndex + 1
                                     self.total = Int(JSONDictionary.objectForKey("data")!.objectForKey("total")! as! NSNumber)
                                     DataStore.sharedInstance.createCharacter(
@@ -355,11 +363,25 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchController.active && searchController.searchBar.text != "" {
+            return filteredCharactersNameArray.count
+        }
         return charactersArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return charactersCellArray[indexPath.row] as! CharactersTableViewCell
+        if searchController.active && searchController.searchBar.text != "" {
+            let filter = filteredCharactersNameArray[indexPath.row].id!
+            var cell = CharactersTableViewCell()
+            for item in charactersCellArray {
+                if (item as! CharactersTableViewCell).character.id! == filter {
+                    cell = item as! CharactersTableViewCell
+                }
+            }
+            return cell
+        } else {
+            return charactersCellArray[indexPath.row] as! CharactersTableViewCell
+        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -379,13 +401,36 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
         let indexPath   = tableView.indexPathForCell(cell)!
         if segue.identifier == "toCharacterDetail" {
             let vc      = segue.destinationViewController as! CharacterDetailViewController
-            let char    = self.charactersArray[indexPath.row] as! Character
-            vc.char     = char
+            var char = Character()
+            if searchController.active && searchController.searchBar.text != "" {
+                char = filteredCharactersNameArray[indexPath.row]
+            } else {
+                char = self.charactersArray[indexPath.row] as! Character
+            }
+            vc.char = char
         }
     }
     
     @IBAction func btnSearch(sender: UIBarButtonItem) {
-        print("search")
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        self.presentViewController(self.searchController, animated: true, completion: nil)
+    }
+    
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        filteredCharactersNameArray = charsForSearch.filter{ char in
+            return char.name!.lowercaseString.containsString(searchText.lowercaseString)
+        }
+        tableView.reloadData()
+    }
+
+}
+
+extension CharactersController: UISearchResultsUpdating {
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
     }
 }
 
