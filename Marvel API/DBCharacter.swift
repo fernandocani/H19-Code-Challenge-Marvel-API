@@ -16,5 +16,10 @@ class DBCharacter: NSManagedObject {
     @NSManaged var name:            String?
     @NSManaged var thumbnailURL:    String?
     @NSManaged var thumbnail:       NSData?
+    @NSManaged var heroDescription: String?
+    @NSManaged var comics:          String?
+    @NSManaged var series:          String?
+    @NSManaged var stories:         String?
+    @NSManaged var events:          String?
 
 }

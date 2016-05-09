@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Automatic">
     <entity name="DBCharacter" representedClassName="DBCharacter" syncable="YES">
+        <attribute name="comics" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="events" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="heroDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="series" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stories" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="thumbnailURL" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DBCharacter" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="DBCharacter" positionX="-63" positionY="-18" width="128" height="180"/>
     </elements>
 </model>

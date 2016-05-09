@@ -14,5 +14,10 @@ class Character {
     var name            : String?
     var thumbnailURL    : String?
     var thumbnail       : NSData?
-
+    var heroDescription : String?
+    var comics          : String?
+    var series          : String?
+    var stories         : String?
+    var events          : String?
+    
 }

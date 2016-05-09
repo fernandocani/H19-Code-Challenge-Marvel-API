@@ -10,8 +10,12 @@ import UIKit
 import Alamofire
 import AlamofireImage
 import SDWebImage
+import UIActivityIndicator_for_SDWebImage
 
 class CharactersController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    @IBOutlet weak var spinner:     UIActivityIndicatorView!
+    @IBOutlet weak var btnSearch: UIBarButtonItem!
     
     @IBOutlet weak var tableView:   UITableView!
     
@@ -20,8 +24,9 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
     var characterCell               = "characterCell"
     var charactersCellArrayCount    = 0
     var currentIndex                = 0
-    var limit                       = 50
+    var limit                       = 20
     var total                       = Int()
+    var loadingData                 = false
     
     var cellHeight                  = CGFloat(150.0)
     var imageVisibleHeight          = CGFloat(150.0)
@@ -29,12 +34,14 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if DataStore.sharedInstance.hasCharacter() {
-            charactersArray.addObjectsFromArray(DataStore.sharedInstance.getCharacter() as [AnyObject])
+        spinner.startAnimating()
+        spinner.hidden = true
+        if DataStore.sharedInstance.hasCharacters() {
+            charactersArray.addObjectsFromArray(DataStore.sharedInstance.getCharacters() as [AnyObject])
+            currentIndex = charactersArray.count
             total = charactersArray.count
             populateCell()
         } else {
-            self.createLoading()
             openConnection()
         }
     }
@@ -78,7 +85,7 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
     
     func openConnection() {
         let ts = String(Int(NSDate().timeIntervalSince1970) * 1000)
-        let url = urlTotalCharacters + "&limit=\(limit)" + "&offset=\(currentIndex + limit)" + "&apikey=\(publicKey)" + "&ts=\(ts)" + "&hash=\((ts+privateKey+publicKey).md5())"
+        let url = urlTotalCharacters + "?orderBy=name&limit=\(limit)" + "&offset=\(currentIndex + limit)" + "&apikey=\(publicKey)" + "&ts=\(ts)" + "&hash=\((ts+privateKey+publicKey).md5())"
         print("\(currentIndex)" + " | " + "\(url)")
         Alamofire.request(
             .GET,
@@ -95,54 +102,234 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                     if let resultJSON = JSONDictionary.objectForKey("data")?.objectForKey("results")! as? [[String: AnyObject]] {
                         for item in resultJSON {
                             let character = Character()
-                            character.id            = String((item as NSDictionary).objectForKey("id")!)
-                            character.name          = String((item as NSDictionary).objectForKey("name")!)
-                            character.thumbnailURL  = String((item as NSDictionary).objectForKey("thumbnail")!.objectForKey("path")!) + ".jpg"
+                            let it                      = (item as NSDictionary)
+                            character.id                = String(it.objectForKey("id")!)
+                            character.name              = String(it.objectForKey("name")!)
+                            print(character.name!)
+                            character.thumbnailURL      = String(it.objectForKey("thumbnail")!.objectForKey("path")!) + ".jpg"
+                            if String(it.objectForKey("description")!) != nil {
+                                character.heroDescription = String(it.objectForKey("description")!)
+                            } else {
+                                character.heroDescription = "no description"
+                            }
+                            character.comics            = ""
+                            let comicsDIC               = it.objectForKey("comics")!.objectForKey("items") as? [[String: AnyObject]]
+                            for item in comicsDIC! {
+                                let it                  = (item as NSDictionary)
+                                let resourceURI         = String(it.objectForKey("resourceURI")!)
+                                let name                = String(it.objectForKey("name")!)
+                                character.comics        = "\(character.comics!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
+                            }
+                            character.series            = ""
+                            let seriesDIC               = it.objectForKey("series")!.objectForKey("items") as? [[String: AnyObject]]
+                            for item in seriesDIC! {
+                                let it                  = (item as NSDictionary)
+                                let resourceURI         = String(it.objectForKey("resourceURI")!)
+                                let name                = String(it.objectForKey("name")!)
+                                character.series        = "\(character.series!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
+                            }
+                            character.stories           = ""
+                            let storiesDIC              = it.objectForKey("stories")!.objectForKey("items") as? [[String: AnyObject]]
+                            for item in storiesDIC! {
+                                let it                  = (item as NSDictionary)
+                                let resourceURI         = String(it.objectForKey("resourceURI")!)
+                                let name                = String(it.objectForKey("name")!)
+                                character.stories       = "\(character.stories!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
+                            }
+                            character.events            = ""
+                            let eventsDIC               = it.objectForKey("events")!.objectForKey("items") as? [[String: AnyObject]]
+                            for item in eventsDIC! {
+                                let it                  = (item as NSDictionary)
+                                let resourceURI         = String(it.objectForKey("resourceURI")!)
+                                let name                = String(it.objectForKey("name")!)
+                                character.events        = "\(character.events!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
+                            }
                             self.charactersArray.addObject(character)
                             self.currentIndex = self.currentIndex + 1
                             self.total = Int(JSONDictionary.objectForKey("data")!.objectForKey("total")! as! NSNumber)
-                            DataStore.sharedInstance.createCharacter(character.id!, name: character.name!, thumbnailURL: character.thumbnailURL!, thumbnail: nil)
+                            DataStore.sharedInstance.createCharacter(
+                                                    character.id!,
+                                name:               character.name!,
+                                thumbnailURL:       character.thumbnailURL!,
+                                thumbnail:          nil,
+                                heroDescription:    character.heroDescription!,
+                                comics:             character.comics!,
+                                series:             character.series!,
+                                stories:            character.stories!,
+                                events:             character.events!
+                            )
                         }
-                        print("foi")
                     } else {
                         self.currentIndex = self.currentIndex + self.limit
-                        print("não foi")
                     }
-                    print("\(self.currentIndex) | \(self.total) ")
-                    if (self.currentIndex + self.limit) < self.total {
-                        self.openConnection()
-                    } else {
-                        print(self.charactersArray.count)
-                        self.populateCell()
-                        self.removeLoading()
-                    }
+                    self.populateCell()
                 }
         }
     }
     
-    func populateCell() {
-        if charactersCellArray.count > 0 {
-            charactersCellArray.removeAllObjects()
-        }
-        for valor in 0...(self.charactersArray.count - 1) {
-            let cell = tableView.dequeueReusableCellWithIdentifier(characterCell) as! CharactersTableViewCell
-            cell.selectionStyle = .None
-            let char = charactersArray[valor] as! Character
-            cell.character = char
-            if char.thumbnail != nil {
-                cell.imgCharacter.image = UIImage(data: char.thumbnail!)
-            } else {
-                cell.imgCharacter.sd_setImageWithURL(NSURL(string: char.thumbnailURL!), placeholderImage: UIImage())
+    func refreshResults2() {
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+            let ts = String(Int(NSDate().timeIntervalSince1970) * 1000)
+            let url = urlTotalCharacters + "?orderBy=name&limit=\(self.limit)" + "&offset=\(self.currentIndex + self.limit)" + "&apikey=\(publicKey)" + "&ts=\(ts)" + "&hash=\((ts+privateKey+publicKey).md5())"
+            Alamofire.request(
+                .GET,
+                url,
+                parameters: nil
+                )
+                .response { request, response, data, error in
+                    if error == nil {
+                        let json = try! NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions(rawValue: 0))
+                        guard let JSONDictionary :NSDictionary = json as? NSDictionary else {
+                            print("Not a Dictionary")
+                            return
+                        }
+                        if let resultJSON = JSONDictionary.objectForKey("data")?.objectForKey("results")! as? [[String: AnyObject]] {
+                            for item in resultJSON {
+                                let character = Character()
+                                let it                      = (item as NSDictionary)
+                                character.id                = String(it.objectForKey("id")!)
+                                if DataStore.sharedInstance.hasCharacter(character.id!) == false {
+                                    character.name              = String(it.objectForKey("name")!)
+                                    print(character.name!)
+                                    character.thumbnailURL      = String(it.objectForKey("thumbnail")!.objectForKey("path")!) + ".jpg"
+                                    if String(it.objectForKey("description")!) != nil {
+                                        character.heroDescription = String(it.objectForKey("description")!)
+                                    } else {
+                                        character.heroDescription = "no description"
+                                    }
+                                    character.comics            = ""
+                                    let comicsDIC               = it.objectForKey("comics")!.objectForKey("items") as? [[String: AnyObject]]
+                                    for item in comicsDIC! {
+                                        let it                  = (item as NSDictionary)
+                                        let resourceURI         = String(it.objectForKey("resourceURI")!)
+                                        let name                = String(it.objectForKey("name")!)
+                                        character.comics        = "\(character.comics!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
+                                    }
+                                    character.series            = ""
+                                    let seriesDIC               = it.objectForKey("series")!.objectForKey("items") as? [[String: AnyObject]]
+                                    for item in seriesDIC! {
+                                        let it                  = (item as NSDictionary)
+                                        let resourceURI         = String(it.objectForKey("resourceURI")!)
+                                        let name                = String(it.objectForKey("name")!)
+                                        character.series        = "\(character.series!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
+                                    }
+                                    character.stories           = ""
+                                    let storiesDIC              = it.objectForKey("stories")!.objectForKey("items") as? [[String: AnyObject]]
+                                    for item in storiesDIC! {
+                                        let it                  = (item as NSDictionary)
+                                        let resourceURI         = String(it.objectForKey("resourceURI")!)
+                                        let name                = String(it.objectForKey("name")!)
+                                        character.stories       = "\(character.stories!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
+                                    }
+                                    character.events            = ""
+                                    let eventsDIC               = it.objectForKey("events")!.objectForKey("items") as? [[String: AnyObject]]
+                                    for item in eventsDIC! {
+                                        let it                  = (item as NSDictionary)
+                                        let resourceURI         = String(it.objectForKey("resourceURI")!)
+                                        let name                = String(it.objectForKey("name")!)
+                                        character.events        = "\(character.events!)\(resourceURI)\(lineBreak2)\(name)\(lineBreak1)"
+                                    }
+                                    self.charactersArray.addObject(character)
+                                    self.currentIndex = self.currentIndex + 1
+                                    self.total = Int(JSONDictionary.objectForKey("data")!.objectForKey("total")! as! NSNumber)
+                                    DataStore.sharedInstance.createCharacter(
+                                        character.id!,
+                                        name:               character.name!,
+                                        thumbnailURL:       character.thumbnailURL!,
+                                        thumbnail:          nil,
+                                        heroDescription:    character.heroDescription!,
+                                        comics:             character.comics!,
+                                        series:             character.series!,
+                                        stories:            character.stories!,
+                                        events:             character.events!
+                                    )
+                                    self.insertCell(self.charactersArray.count - 1)
+                                    self.tableView.beginUpdates()
+                                    self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: (self.charactersArray.count - 1), inSection: 0)], withRowAnimation: .Automatic)
+                                    self.tableView.endUpdates()
+                                }
+                            }
+                        } else {
+                            self.currentIndex = self.currentIndex + self.limit
+                        }
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            // this runs on the main queue
+                            self.spinner.hidden = true
+                            self.loadingData = false
+                        }
+                    }
             }
-            cell.imgCharacterHeightConstraint.constant = parallaxImageHeight
-            cell.imgCharacterTopConstraint.constant = parallaxOffsetFor(tableView.contentOffset.y, cell: cell)
-            
-            cell.lblCharacterName.text = cell.character.name
-            charactersCellArray.addObject(cell)
+        }
+    }
+    
+    func populateCell() {
+        for valor in 0...(self.charactersArray.count - 1) {
+            insertCell(valor)
         }
         tableView.reloadData()
     }
     
+    func insertCell(index: Int) {
+        let cell = tableView.dequeueReusableCellWithIdentifier(characterCell) as! CharactersTableViewCell
+        cell.selectionStyle = .None
+        let char = charactersArray[index] as! Character
+        cell.character = char
+        if char.thumbnail == nil {
+            if char.thumbnailURL! == "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" {
+                cell.imgCharacter.image = UIImage(named: "imgNotAvaliable")
+                DataStore.sharedInstance.updateCharacter(
+                    char.id!,
+                    name:               char.name!,
+                    thumbnailURL:       char.thumbnailURL!,
+                    thumbnail:          NSData(data: UIImagePNGRepresentation(cell.imgCharacter.image!)!),
+                    heroDescription:    char.heroDescription!,
+                    comics:             char.comics!,
+                    series:             char.series!,
+                    stories:            char.stories!,
+                    events:             char.events!
+                )
+            } else {
+                cell.imgCharacter.sd_setImageWithURL(NSURL(string: char.thumbnailURL!), placeholderImage: UIImage(named: "imgNotAvaliable"), completed: { (image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) in
+                    if error == nil {
+                        DataStore.sharedInstance.updateCharacter(
+                            char.id!,
+                            name:               char.name!,
+                            thumbnailURL:       char.thumbnailURL!,
+                            thumbnail:          NSData(data: UIImagePNGRepresentation(image)!),
+                            heroDescription:    char.heroDescription!,
+                            comics:             char.comics!,
+                            series:             char.series!,
+                            stories:            char.stories!,
+                            events:             char.events!
+                        )
+                    } else {
+                        cell.imgCharacter.image = UIImage(named: "imgNotAvaliable")
+                        DataStore.sharedInstance.updateCharacter(
+                            char.id!,
+                            name:               char.name!,
+                            thumbnailURL:       char.thumbnailURL!,
+                            thumbnail:          NSData(data: UIImagePNGRepresentation(cell.imgCharacter.image!)!),
+                            heroDescription:    char.heroDescription!,
+                            comics:             char.comics!,
+                            series:             char.series!,
+                            stories:            char.stories!,
+                            events:             char.events!
+                        )
+                    }
+                    }
+                )
+            }
+        } else {
+            cell.imgCharacter.image = UIImage(data: char.thumbnail!)
+        }
+        cell.imgCharacterHeightConstraint.constant = parallaxImageHeight
+        cell.imgCharacterTopConstraint.constant = parallaxOffsetFor(tableView.contentOffset.y, cell: cell)
+        
+        cell.lblCharacterName.text = cell.character.name
+        charactersCellArray.addObject(cell)
+    }
+ 
     // Start Parallax
     
     var parallaxImageHeight: CGFloat {
@@ -168,7 +355,7 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return charactersCellArray.count
+        return charactersArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -179,10 +366,27 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
         return 150.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print((charactersArray[indexPath.row] as! Character).name!)
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (!loadingData && (indexPath.row == (charactersArray.count - 1))) {
+            spinner.hidden = false
+            loadingData = true
+            refreshResults2()
+        }
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let cell        = sender as! UITableViewCell
+        let indexPath   = tableView.indexPathForCell(cell)!
+        if segue.identifier == "toCharacterDetail" {
+            let vc      = segue.destinationViewController as! CharacterDetailViewController
+            let char    = self.charactersArray[indexPath.row] as! Character
+            vc.char     = char
+        }
+    }
+    
+    @IBAction func btnSearch(sender: UIBarButtonItem) {
+        print("search")
+    }
 }
 
 class CharactersTableViewCell: UITableViewCell {

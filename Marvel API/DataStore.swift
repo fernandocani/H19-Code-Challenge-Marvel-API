@@ -19,8 +19,18 @@ class DataStore {
         }
         return Static.instance
     }
-
-    func createCharacter(id: String, name: String, thumbnailURL: String, thumbnail: UIImage?) -> Bool {
+    
+    func createCharacter(
+        id: String,
+        name: String,
+        thumbnailURL: String,
+        thumbnail: UIImage?,
+        heroDescription: String,
+        comics: String,
+        series: String,
+        stories: String,
+        events: String
+        ) -> Bool {
         
         let dbCharacterEntity = NSEntityDescription.entityForName("DBCharacter", inManagedObjectContext: managedContext)
         let dbCharacter = DBCharacter(entity: dbCharacterEntity!, insertIntoManagedObjectContext: managedContext)
@@ -28,6 +38,11 @@ class DataStore {
         dbCharacter.id              = id
         dbCharacter.name            = name
         dbCharacter.thumbnailURL    = thumbnailURL
+        dbCharacter.heroDescription = heroDescription
+        dbCharacter.comics          = comics
+        dbCharacter.series          = series
+        dbCharacter.stories         = stories
+        dbCharacter.events          = events
         if thumbnail != nil{
             dbCharacter.thumbnail = UIImagePNGRepresentation(thumbnail!)
         }
@@ -35,7 +50,7 @@ class DataStore {
         return true
     }
     
-    func hasCharacter() -> Bool {
+    func hasCharacters() -> Bool {
         let request = NSFetchRequest(entityName: "DBCharacter")
         let objects: [AnyObject]?
         objects = (try! managedContext.executeFetchRequest(request))
@@ -45,25 +60,51 @@ class DataStore {
         return false
     }
     
-    func getCharacter() -> NSMutableArray {
+    func hasCharacter(id: String) -> Bool {
+        let request = NSFetchRequest(entityName: "DBCharacter")
+        request.predicate = NSPredicate(format: "id contains[c] %@", id)
+        let objects: [AnyObject]?
+        objects = (try! managedContext.executeFetchRequest(request))
+        if objects!.count > 0 {
+            return true
+        }
+        return false
+    }
+    
+    func getCharacters() -> NSMutableArray {
         let request = NSFetchRequest(entityName: "DBCharacter")
         let objects: [AnyObject]?
         objects = (try! managedContext.executeFetchRequest(request))
-        let res = NSMutableArray()
+        let result = NSMutableArray()
         for item in objects! {
-            let char            = Character()
-            char.id             = (item as! DBCharacter).id!
-            char.name           = (item as! DBCharacter).name!
-            char.thumbnailURL   = (item as! DBCharacter).thumbnailURL!
+            let char             = Character()
+            char.id              = (item as! DBCharacter).id!
+            char.name            = (item as! DBCharacter).name!
+            char.thumbnailURL    = (item as! DBCharacter).thumbnailURL!
+            char.heroDescription = (item as! DBCharacter).heroDescription!
+            char.comics          = (item as! DBCharacter).comics!
+            char.series          = (item as! DBCharacter).series!
+            char.stories         = (item as! DBCharacter).stories!
+            char.events          = (item as! DBCharacter).events!
             if (item as! DBCharacter).thumbnail != nil {
                 char.thumbnail  = (item as! DBCharacter).thumbnail!
             }
-            res.addObject(char)
+            result.addObject(char)
         }
-        return res
+        return result
     }
-
-    func updateCharacter(id: String, name: String, thumbnailURL: String, thumbnail: NSData?) -> Bool {
+    
+    func updateCharacter(
+        id: String,
+        name: String,
+        thumbnailURL: String,
+        thumbnail: NSData?,
+        heroDescription: String,
+        comics: String,
+        series: String,
+        stories: String,
+        events: String
+        ) -> Bool {
         let request = NSFetchRequest(entityName: "DBCharacter")
         request.predicate = NSPredicate(format: "id contains[c] %@", id)
         let objects: [AnyObject]?
@@ -73,6 +114,11 @@ class DataStore {
             dbCharacterToUpdate.id              = id
             dbCharacterToUpdate.name            = name
             dbCharacterToUpdate.thumbnailURL    = thumbnailURL
+            dbCharacterToUpdate.heroDescription = heroDescription
+            dbCharacterToUpdate.comics          = comics
+            dbCharacterToUpdate.series          = series
+            dbCharacterToUpdate.stories         = stories
+            dbCharacterToUpdate.events          = events
             if thumbnail != nil{
                 dbCharacterToUpdate.thumbnail = thumbnail
             }
@@ -80,6 +126,14 @@ class DataStore {
             return true
         }
         return false
+    }
+    
+    func whipeCD () -> Bool {
+        let fetchRequest1 = NSFetchRequest(entityName: "DBCharacter")
+        let deleteRequest1 = NSBatchDeleteRequest(fetchRequest: fetchRequest1)
+        (try! managedContext.executeRequest(deleteRequest1))
+        
+        return true
     }
     
 }
