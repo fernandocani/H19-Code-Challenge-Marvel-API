@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Marvel API/CharactersController.swift"
-            timestampString = "484483961.328933"
+            timestampString = "484525997.316278"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
             landmarkName = "openConnection()"
             landmarkType = "5">
          </BreakpointContent>

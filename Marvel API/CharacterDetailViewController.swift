@@ -193,14 +193,17 @@ class CharacterDetailViewController: UIViewController, UITableViewDataSource, UI
                 if (valor == 7) {
                     cell.cstLblSectionTitleHeight.constant = 0
                     cell.lblText.text = "Detail"
+                    cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
                 }
                 if (valor == 8) {
                     cell.cstLblSectionTitleHeight.constant = 0
                     cell.lblText.text = "Wiki"
+                    cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
                 }
                 if (valor == 9) {
                     cell.cstLblSectionTitleHeight.constant = 0
                     cell.lblText.text = "Comic"
+                    cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
                 }
                 detailCell.removeObjectAtIndex(valor)
                 detailCell.insertObject(cell, atIndex: valor)

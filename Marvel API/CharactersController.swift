@@ -95,6 +95,7 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
         let ts = String(Int(NSDate().timeIntervalSince1970) * 1000)
         let url = urlTotalCharacters + "?orderBy=name&limit=\(limit)" + "&offset=\(currentIndex + limit)" + "&apikey=\(publicKey)" + "&ts=\(ts)" + "&hash=\((ts+privateKey+publicKey).md5())"
         print("\(currentIndex)" + " | " + "\(url)")
+        self.createLoading()
         Alamofire.request(
             .GET,
             url,
@@ -181,6 +182,7 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
                     }
                     self.populateCell()
                 }
+                self.removeLoading()
         }
     }
     
@@ -357,6 +359,19 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
         cell.imgCharacterTopConstraint.constant = parallaxOffsetFor(tableView.contentOffset.y, cell: cell)
         
         cell.lblCharacterName.text = cell.character.name
+        cell.imgCharacterBG.backgroundColor = UIColor.clearColor()
+        let bgH = cell.imgCharacterBG.frame.size.height
+        let point = CGFloat(20)
+        let layer = CAShapeLayer()
+        let cutDirection = UIBezierPath()
+        cutDirection.moveToPoint(   CGPoint(x: point,                       y: 0))
+        cutDirection.addLineToPoint(CGPoint(x: screenWidth - 16,            y: 0))
+        cutDirection.addLineToPoint(CGPoint(x: screenWidth - 16 - point,    y: bgH))
+        cutDirection.addLineToPoint(CGPoint(x: 0,                           y: bgH))
+        layer.path = cutDirection.CGPath
+        layer.fillColor = UIColor.whiteColor().CGColor
+        cell.imgCharacterBG.layer.addSublayer(layer)
+        
         charactersCellArray.addObject(cell)
     }
  
@@ -458,6 +473,7 @@ extension CharactersController: UISearchResultsUpdating {
 
 class CharactersTableViewCell: UITableViewCell {
     @IBOutlet weak var imgCharacter: UIImageView!
+    @IBOutlet weak var imgCharacterBG: UIView!
     @IBOutlet weak var lblCharacterName: UILabel!
     
     @IBOutlet weak var imgCharacterHeightConstraint: NSLayoutConstraint!

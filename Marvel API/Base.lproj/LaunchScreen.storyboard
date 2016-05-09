@@ -17,17 +17,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Marvel API" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rg3-x4-RGa">
-                                <rect key="frame" x="239" y="289" width="82" height="21"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch" translatesAutoresizingMaskIntoConstraints="NO" id="5CA-jK-1X4">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@fernandocani" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kCr-qd-vrM">
+                                <rect key="frame" x="242.5" y="559" width="115.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="rg3-x4-RGa" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="fRe-Fh-IHH"/>
-                            <constraint firstItem="rg3-x4-RGa" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="w8G-0Q-YeB"/>
+                            <constraint firstAttribute="trailing" secondItem="5CA-jK-1X4" secondAttribute="trailing" id="62B-ck-V9a"/>
+                            <constraint firstItem="5CA-jK-1X4" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="Tsc-UP-VWp"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="kCr-qd-vrM" secondAttribute="bottom" constant="20" id="e6z-di-tqk"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="5CA-jK-1X4" secondAttribute="bottom" id="isx-Nn-EUa"/>
+                            <constraint firstItem="5CA-jK-1X4" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="t19-u3-hiX"/>
+                            <constraint firstItem="kCr-qd-vrM" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="vi8-FJ-MEc"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -36,4 +43,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="launch" width="1080" height="1920"/>
+    </resources>
 </document>
