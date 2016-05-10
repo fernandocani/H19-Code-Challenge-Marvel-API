@@ -451,7 +451,6 @@ class CharactersController: UIViewController, UITableViewDataSource, UITableView
     @IBAction func btnSearch(sender: UIBarButtonItem) {
         searchController.searchResultsUpdater                   = self
         searchController.dimsBackgroundDuringPresentation       = false
-        searchController.hidesNavigationBarDuringPresentation   = false
         definesPresentationContext                              = true
         self.presentViewController(self.searchController, animated: true, completion: nil)
     }
