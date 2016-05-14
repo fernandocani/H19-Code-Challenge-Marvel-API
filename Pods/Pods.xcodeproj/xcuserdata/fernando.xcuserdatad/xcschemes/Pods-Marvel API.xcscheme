@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '7E4B14EF7EC7A194666E5261'
+               BlueprintIdentifier = '01326DE605E5F8AC9015ACA8'
                BlueprintName = 'Pods-Marvel API'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods_Marvel_API.framework'>
