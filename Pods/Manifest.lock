@@ -1,4 +1,7 @@
 PODS:
+  - Alamofire (3.4.0)
+  - AlamofireImage (2.4.0):
+    - Alamofire (~> 3.3)
   - ASHorizontalScrollView (1.1)
   - CSStickyHeaderFlowLayout (0.2.10)
   - SDWebImage (3.7.5):
@@ -10,6 +13,8 @@ PODS:
   - YHImageViewer (0.2.1)
 
 DEPENDENCIES:
+  - Alamofire (~> 3.4)
+  - AlamofireImage (~> 2.0)
   - ASHorizontalScrollView (~> 1.1)
   - CSStickyHeaderFlowLayout
   - SDWebImage (~> 3.7)
@@ -18,6 +23,8 @@ DEPENDENCIES:
   - YHImageViewer
 
 SPEC CHECKSUMS:
+  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
+  AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
   ASHorizontalScrollView: 97f78b44008078b9c3ea1fe3ed7286c39e47d4e8
   CSStickyHeaderFlowLayout: 5366582779d8b7c9ba9b9cc729c218cc23888776
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461

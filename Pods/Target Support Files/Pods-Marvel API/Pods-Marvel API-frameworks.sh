@@ -85,6 +85,8 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Marvel API/ASHorizontalScrollView.framework"
+  install_framework "Pods-Marvel API/Alamofire.framework"
+  install_framework "Pods-Marvel API/AlamofireImage.framework"
   install_framework "Pods-Marvel API/CSStickyHeaderFlowLayout.framework"
   install_framework "Pods-Marvel API/SDWebImage.framework"
   install_framework "Pods-Marvel API/SwiftFSImageViewer.framework"
@@ -93,6 +95,8 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Marvel API/ASHorizontalScrollView.framework"
+  install_framework "Pods-Marvel API/Alamofire.framework"
+  install_framework "Pods-Marvel API/AlamofireImage.framework"
   install_framework "Pods-Marvel API/CSStickyHeaderFlowLayout.framework"
   install_framework "Pods-Marvel API/SDWebImage.framework"
   install_framework "Pods-Marvel API/SwiftFSImageViewer.framework"

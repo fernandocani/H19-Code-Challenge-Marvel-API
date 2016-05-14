@@ -5,7 +5,9 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'Marvel API' do
-
+    
+pod 'Alamofire', '~> 3.4'
+pod 'AlamofireImage', '~> 2.0'
 pod 'SDWebImage', '~>3.7'
 pod 'UIActivityIndicator-for-SDWebImage'
 pod 'CSStickyHeaderFlowLayout'
@@ -14,4 +16,3 @@ pod 'YHImageViewer'
 pod 'SwiftFSImageViewer', '~> 1.1'
 
 end
-

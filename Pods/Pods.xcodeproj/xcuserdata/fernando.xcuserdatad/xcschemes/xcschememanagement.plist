@@ -9,6 +9,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Alamofire.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>AlamofireImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>CSStickyHeaderFlowLayout.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,42 +57,52 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>05094CC4A047119F7ADC14EE74C4881C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2EFD2E1AE2A99303D39011BEEEE1CC69</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>30C445E6D8703D94CB06D42EB47820DE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>72D3DBC4F5674F1953AB81C48CF2D2E5</key>
+		<key>397626E7B280240A261628717929570D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>754F4DEA1E345A51D45EE1FDEC4CFFBB</key>
+		<key>54015F0BCDFABBE8D3003E8ECE2F5B5B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>988B3C5BE7A35C06F693E4AFA2A509DD</key>
+		<key>7982AF34320A8A317D013B5D1FFDF0CC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A92D922F1C58A28D604C9E65CB2524CD</key>
+		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9A24311377D7C642C2E35EDF65E0E9C5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A878FF15A195F830062B2EBB8BB5A343</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>BCC9977AA9316CA3F11E052D6BC5AB9D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C30B0156E31D556EA87496547445BF66</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E126C5C99872D8CB15FB2D5B87F6E310</key>
 		<dict>
 			<key>primary</key>
 			<true/>
